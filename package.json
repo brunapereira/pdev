@@ -18,5 +18,8 @@
   "homepage": "https://github.com/brunapereira/pdev#readme",
   "dependencies": {
     "commander": "^2.9.0"
+  },
+  "bin": {
+    "pdev": "index.js"  
   }
 }
