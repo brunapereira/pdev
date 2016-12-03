@@ -10,14 +10,19 @@ program
 var args = program.args;
 
 if (!args.length) {
-  console.error('packages required');
+  console.error('Hm... You didn\'t specify the activity. :(');
   process.exit(1);
-}
+};
 
 if (program.message) {
-  var message = '\n' + program.args[0];
-  fs.appendFile('pdev.txt', message, function (err) {
-    if (err) return console.log(err);
-    console.log("Activity recorded!");
+  fs.readFile('pdev.json', function (error, data) {
+    if (error) return console.log(error);
+
+    var obj = JSON.parse(data);
+    obj.activities.concat({description: program.args[0]});
+
+    console.log("Activity recorded!")
+    var json = JSON.stringify(obj);
+    fs.writeFile('pdev.json', json)
   });
-}
+};
