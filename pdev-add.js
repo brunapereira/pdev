@@ -1,28 +1,28 @@
 #!/usr/bin/env node
 
-var program = require('commander');
-var fs = require('fs');
+const program = require('commander')
+const fs = require('fs')
 
 program
   .option('-m, --message', 'activity short description')
-  .parse(process.argv);
+  .parse(process.argv)
 
-var args = program.args;
+const file = 'pdev.json'
+const args = program.args
 
 if (!args.length) {
-  console.error('Hm... You didn\'t specify the activity. :(');
-  process.exit(1);
-};
+  console.error('Hm... You didn\'t specify the activity. :(')
+  process.exit(1)
+}
 
 if (program.message) {
-  fs.readFile('pdev.json', function (error, data) {
-    if (error) return console.log(error);
+  fs.readFile(file, (error, actualData) => {
+    if (error) return console.log(error)
 
-    var obj = JSON.parse(data);
-    obj.activities.concat({description: program.args[0]});
+    const actualDataObject = JSON.parse(actualData)
+    actualDataObject.activities.concat({description: program.args[0]})
 
     console.log("Activity recorded!")
-    var json = JSON.stringify(obj);
-    fs.writeFile('pdev.json', json)
-  });
-};
+    fs.writeFile('pdev.json', JSON.stringify(actualDataObject))
+  })
+}
