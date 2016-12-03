@@ -20,7 +20,7 @@ if (program.message) {
     if (error) return console.log(error)
 
     const actualDataObject = JSON.parse(actualData)
-    actualDataObject.activities.concat({description: program.args[0]})
+    actualDataObject.activities.push({description: program.args[0]})
 
     console.log("Activity recorded!")
     fs.writeFile('pdev.json', JSON.stringify(actualDataObject))
