@@ -5,18 +5,16 @@ const moment = require('moment')
 const fs = require('fs')
 
 let activity = { message: '',  pillar: '', date: '' }
-const file = 'pdev.json' 
+const file = 'pdev.json'
 
 const addMessage = (message) => { activity.message = message }
 const addPillar = (pillar) => { activity.pillar = pillar }
 
 const addDate = (date) => {
-  switch (date) {
-    case '.':
-      return activity.date = moment().format('DD/MM/YYYY')
-    default:
-      return activity.date = date
-  }
+  if (date === '.') return activity.date = moment().format('DD/MM/YYYY')
+  if (!isNaN(date)) return activity.date = moment().subtract(parseInt(date), 'days').format('DD/MM/YYYY')
+
+  return activity.date = date
 }
 
 program
