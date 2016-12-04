@@ -4,26 +4,17 @@ const program = require('commander')
 const fs = require('fs')
 
 let activity = { message: '',  pillar: '', date: '' }
+const file = 'pdev.json' 
 
-const addMessage = (message) => {
-  activity.message = message
-}
-
-const addPillar = (pillar) => {
-  activity.pillar = pillar
-}
-
-const addDate = (date) => {
-  activity.date = date
-}
+const addMessage = (message) => { activity.message = message }
+const addPillar = (pillar) => { activity.pillar = pillar }
+const addDate = (date) => { activity.date = date }
 
 program
   .option('-m, --message [message]', 'activity short description', addMessage)
   .option('-p, --pillar [pillar]', 'activity pillar', addPillar)
   .option('-d, --date [date]', 'activity date', addDate)
   .parse(process.argv)
-
-const file = 'pdev.json' 
 
 fs.readFile(file, (error, actualData) => {
   if (error) return console.log(error)
