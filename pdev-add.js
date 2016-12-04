@@ -4,17 +4,18 @@ const program = require('commander')
 const moment = require('moment')
 const fs = require('fs')
 
-let activity = { message: '',  pillar: '', date: '' }
+let newActivity = { id: '',  message: '',  pillar: '', date: '' }
 const file = 'pdev.json'
 
-const addMessage = (message) => { activity.message = message }
-const addPillar = (pillar) => { activity.pillar = pillar }
+const addMessage = (message) => { newActivity.message = message }
+const addPillar = (pillar) => { newActivity.pillar = pillar }
+const addId = (lastActivity) => { lastActivity.id ? newActivity.id = lastActivity.id + 1 : newActivity.id = 0 }
 
 const addDate = (date) => {
-  if (date === '.') return activity.date = moment().format('DD/MM/YYYY')
-  if (!isNaN(date)) return activity.date = moment().subtract(parseInt(date), 'days').format('DD/MM/YYYY')
+  if (date === '.') return newActivity.date = moment().format('DD/MM/YYYY')
+  if (!isNaN(date)) return newActivity.date = moment().subtract(parseInt(date), 'days').format('DD/MM/YYYY')
 
-  return activity.date = date
+  return newActivity.date = date
 }
 
 program
@@ -23,12 +24,14 @@ program
   .option('-d, --date [date]', 'activity date', addDate)
   .parse(process.argv)
 
-fs.readFile(file, (error, actualData) => {
+fs.readFile(file, (error, pdevContent) => {
   if (error) return console.log(error)
 
-  const actualDataObject = JSON.parse(actualData)
-  actualDataObject.activities.push(activity)
+  addId(JSON.parse(pdevContent).activities.pop()) // how to do that without really remove the element?
+
+  fs.writeFile(file, JSON.stringify({
+    activities: [...JSON.parse(pdevContent).activities, newActivity]
+  }))
 
   console.log("Activity recorded!")
-  fs.writeFile(file, JSON.stringify(actualDataObject))
 })
