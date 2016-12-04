@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const program = require('commander')
+const moment = require('moment')
 const fs = require('fs')
 
 let activity = { message: '',  pillar: '', date: '' }
@@ -8,7 +9,15 @@ const file = 'pdev.json'
 
 const addMessage = (message) => { activity.message = message }
 const addPillar = (pillar) => { activity.pillar = pillar }
-const addDate = (date) => { activity.date = date }
+
+const addDate = (date) => {
+  switch (date) {
+    case '.':
+      return activity.date = moment().format('DD/MM/YYYY')
+    default:
+      return activity.date = date
+  }
+}
 
 program
   .option('-m, --message [message]', 'activity short description', addMessage)
