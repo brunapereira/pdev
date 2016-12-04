@@ -3,26 +3,34 @@
 const program = require('commander')
 const fs = require('fs')
 
+let activity = { message: '',  pillar: '', date: '' }
+
+const addMessage = (message) => {
+  activity.message = message
+}
+
+const addPillar = (pillar) => {
+  activity.pillar = pillar
+}
+
+const addDate = (date) => {
+  activity.date = date
+}
+
 program
-  .option('-m, --message', 'activity short description')
+  .option('-m, --message [message]', 'activity short description', addMessage)
+  .option('-p, --pillar [pillar]', 'activity pillar', addPillar)
+  .option('-d, --date [date]', 'activity date', addDate)
   .parse(process.argv)
 
-const file = 'pdev.json'
-const args = program.args
+const file = 'pdev.json' 
 
-if (!args.length) {
-  console.error('Hm... You didn\'t specify the activity. :(')
-  process.exit(1)
-}
+fs.readFile(file, (error, actualData) => {
+  if (error) return console.log(error)
 
-if (program.message) {
-  fs.readFile(file, (error, actualData) => {
-    if (error) return console.log(error)
+  const actualDataObject = JSON.parse(actualData)
+  actualDataObject.activities.push(activity)
 
-    const actualDataObject = JSON.parse(actualData)
-    actualDataObject.activities.push({description: program.args[0]})
-
-    console.log("Activity recorded!")
-    fs.writeFile('pdev.json', JSON.stringify(actualDataObject))
-  })
-}
+  console.log("Activity recorded!")
+  fs.writeFile(file, JSON.stringify(actualDataObject))
+})
