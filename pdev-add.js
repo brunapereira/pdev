@@ -27,11 +27,12 @@ program
 fs.readFile(file, (error, pdevContent) => {
   if (error) return console.log(error)
 
-  addId(JSON.parse(pdevContent).activities.pop()) // how to do that without really remove the element?
+  const actualActivities = JSON.parse(pdevContent).activities
+  addId(actualActivities.slice(-1).pop())
 
   fs.writeFile(file, JSON.stringify({
-    activities: [...JSON.parse(pdevContent).activities, newActivity]
-  }))
+    activities: [...actualActivities, newActivity]
+  }, null, 2))
 
   console.log("Activity recorded!")
 })
