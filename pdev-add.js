@@ -7,9 +7,9 @@ const fs = require('fs')
 let newActivity = { id: '',  message: '',  pillar: '', date: '' }
 const file = 'pdev.json'
 
-const addMessage = (message) => { newActivity.message = message }
-const addPillar = (pillar) => { newActivity.pillar = pillar }
-const addId = (lastActivity) => { lastActivity.id ? newActivity.id = lastActivity.id + 1 : newActivity.id = 0 }
+const addMessage = (message) => newActivity.message = message
+const addPillar = (pillar) => newActivity.pillar = pillar
+const addId = (lastActivity) => lastActivity.id ? newActivity.id = lastActivity.id + 1 : newActivity.id = 0
 
 const addDate = (date) => {
   if (date === '.') return newActivity.date = moment().format('DD/MM/YYYY')
@@ -26,13 +26,11 @@ program
 
 fs.readFile(file, (error, pdevContent) => {
   if (error) return console.log(error)
-
   const actualActivities = JSON.parse(pdevContent).activities
+
   addId(actualActivities.slice(-1).pop())
 
-  fs.writeFile(file, JSON.stringify({
-    activities: [...actualActivities, newActivity]
-  }, null, 2))
+  fs.writeFile(file, JSON.stringify({activities: [...actualActivities, newActivity]}, null, 2))
 
   console.log("Activity recorded!")
 })
