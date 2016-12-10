@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/brunapereira/pdev#readme",
   "dependencies": {
-    "commander": "^2.9.0"
+    "commander": "^2.9.0",
+    "firebase-admin": "^4.0.4"
   },
   "bin": {
     "pdev": "pdev.js"  

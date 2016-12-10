@@ -3,4 +3,5 @@ node_modules/
 *.swo
 *.swn
 pdev.json
+firebase-keys.json
 
