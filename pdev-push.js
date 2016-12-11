@@ -25,7 +25,7 @@ const deleteLocalData = () => {
   fs.readFile(file, (error) => {
     if (error) return console.log(error);
 
-    fs.writeFile(file, { activities: [] });
+    fs.writeFile(file, JSON.stringify({ activities: [] }));
   });
 };
 
