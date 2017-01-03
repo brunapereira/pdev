@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 
-//const program = require('commander')
 const fs = require('fs')
-const defaultPath = process.env.HOME + '/pdev.json'
-const initStructure = { activities: [] }
+const config = require('./config.js')
 
-fs.writeFile(defaultPath, JSON.stringify(initStructure))
-console.log('File created at: ' + defaultPath)
+fs.writeFile(config.filePath(), JSON.stringify(config.initStructure()))
+console.log('File created at: ' + config.filePath())

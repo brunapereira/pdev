@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
+const config = require('./config.js')
 const program = require('commander')
 const moment = require('moment')
 const fs = require('fs')
 
-let newActivity = { message: '',  pillar: '', date: '' }
-const file = 'pdev.json'
+let newActivity = config.activityStructure(); 
+const file = config.filePath();
 
 const addMessage = (message) => newActivity.message = message
 const addPillar = (pillar) => newActivity.pillar = pillar

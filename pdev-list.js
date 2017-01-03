@@ -2,7 +2,7 @@
 
 const program = require('commander')
 const fs = require('fs')
-const file = 'pdev.json'
+const config = require('./config.js')
 
 const read = (file) =>
   (orderer) =>
@@ -34,6 +34,6 @@ const orderByPillar = (activities) => {
 }
 
 program
-  .option('-p, --pillar', 'print information sorted by pillar', read(file)(orderByPillar))
-  .option('-a, --all', 'print all information', read(file)(orderByCreateDate))
+  .option('-p, --pillar', 'print information sorted by pillar', read(config.filePath())(orderByPillar))
+  .option('-a, --all', 'print all information', read(config.filePath())(orderByCreateDate))
   .parse(process.argv)
