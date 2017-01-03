@@ -4,12 +4,19 @@ const program = require('commander')
 const fs = require('fs')
 const config = require('./config.js')
 
+const threatError = (error) => {
+  if (error.code === 'ENOENT') {
+    console.log('file not found at' + config.filePath() + '. Try run `pdev init` first');
+  };
+}
+
 const read = (file) =>
-  (orderer) =>
+  (orderer) => {
     fs.readFile(file, (error, actualData) => {
-      if (error) return console.log(error)
+      if (error) return threatError(error) 
       orderer(JSON.parse(actualData).activities)
     })
+  }
 
 const printer = (activities) =>
   activities.forEach((activity) => {
@@ -19,11 +26,11 @@ const printer = (activities) =>
     console.log("")
   })
 
-const orderByCreateDate = (activities) => {
+const createDateOrderer = (activities) => {
   printer(activities)
 }
 
-const orderByPillar = (activities) => {
+const pillarOrderer = (activities) => {
   const activitiesSortedByPillar = activities.sort((a, b) => {
     if (a.pillar > b.pillar) { return 1; }
     if (a.pillar < b.pillar) { return -1; }
@@ -33,7 +40,11 @@ const orderByPillar = (activities) => {
   printer(activities)
 }
 
+const orderByPillar = () => read(config.filePath())(pillarOrderer)
+const orderByCreateDate = () => read(config.filePath())(createDateOrderer)
+
+
 program
-  .option('-p, --pillar', 'print information sorted by pillar', read(config.filePath())(orderByPillar))
-  .option('-a, --all', 'print all information', read(config.filePath())(orderByCreateDate))
+  .option('-p, --pillar', 'print information sorted by pillar', orderByPillar)
+  .option('-a, --all', 'print all information', orderByCreateDate)
   .parse(process.argv)
