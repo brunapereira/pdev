@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const config = require('./config.js')
+const threatError = require('./threatError')
 const program = require('commander')
 const moment = require('moment')
 const fs = require('fs')
@@ -25,7 +26,7 @@ program
   .parse(process.argv)
 
 fs.readFile(file, (error, pdevContent) => {
-  if (error) return console.log(error)
+  if (error) return threatError(error)
   const actualActivities = JSON.parse(pdevContent).activities
 
   fs.writeFile(file, JSON.stringify({activities: [...actualActivities, newActivity]}, null, 2))

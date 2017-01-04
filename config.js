@@ -1,6 +1,6 @@
 module.exports = {
   filePath: function() {
-    return process.env.HOME + '/pdev.json';
+    return './pdev.json';
   },
 
   initStructure: function() { 
@@ -8,6 +8,6 @@ module.exports = {
   },
 
   activityStructure: function() {
-    return { message: '',  pillar: '', date: '' };  
+    return { message: '',  pillar: '', date: '' };
   }
 }

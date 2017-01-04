@@ -3,12 +3,7 @@
 const program = require('commander')
 const fs = require('fs')
 const config = require('./config.js')
-
-const threatError = (error) => {
-  if (error.code === 'ENOENT') {
-    console.log('file not found at' + config.filePath() + '. Try run `pdev init` first');
-  };
-}
+const threatError = require('./threatError')
 
 const read = (file) =>
   (orderer) => {
@@ -42,7 +37,6 @@ const pillarOrderer = (activities) => {
 
 const orderByPillar = () => read(config.filePath())(pillarOrderer)
 const orderByCreateDate = () => read(config.filePath())(createDateOrderer)
-
 
 program
   .option('-p, --pillar', 'print information sorted by pillar', orderByPillar)
