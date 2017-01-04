@@ -1,6 +1,6 @@
 {
   "name": "pdev",
-  "version": "0.0.2",
+  "version": "1.0.1",
   "description": "Command-line application to track my personal development",
   "main": "pdev.js",
   "scripts": {
@@ -18,9 +18,10 @@
   "homepage": "https://github.com/brunapereira/pdev#readme",
   "dependencies": {
     "commander": "^2.9.0",
-    "firebase-admin": "^4.0.4"
+    "firebase-admin": "^4.0.4",
+    "moment": "^2.17.1"
   },
   "bin": {
-    "pdev": "pdev.js"  
+    "pdev": "pdev.js"
   }
 }
