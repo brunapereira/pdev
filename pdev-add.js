@@ -26,9 +26,9 @@ const buildActivity = ({message, pillar, date}) => {
 }
 
 program
-  .option('-m, --message [message]', 'activity short description')
-  .option('-p, --pillar [pillar]', 'activity pillar')
-  .option('-d, --date [date]', 'activity date')
+  .option('-m, --message <message>', 'activity short description')
+  .option('-p, --pillar <pillar>', 'activity pillar')
+  .option('-d, --date <date>', 'activity date')
   .parse(process.argv)
 
 fs.readFile(file, (error, pdevContent) => {
