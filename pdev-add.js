@@ -31,6 +31,9 @@ program
   .option('-d, --date <date>', 'activity date')
   .parse(process.argv)
 
+if (!process.argv.message || !process.argv.pillar)
+  program.outputHelp();
+
 fs.readFile(file, (error, pdevContent) => {
   if (error) return threatError(error)
   const actualActivities = JSON.parse(pdevContent).activities
