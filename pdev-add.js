@@ -16,13 +16,11 @@ const formatDate = ({date, args}) => {
 }
 
 const buildActivity = ({message, pillar, date}) => {
-  const newActivity = config.activityStructure(); 
-
-  return Object.assign({}, newActivity, {
+  return { 
     message, 
     pillar, 
-    date: formatDate(program)
-  })
+    date: formatDate(program) 
+  }
 }
 
 program
@@ -35,7 +33,9 @@ fs.readFile(file, (error, pdevContent) => {
   if (error) return threatError(error)
   const actualActivities = JSON.parse(pdevContent).activities
 
-  fs.writeFile(file, JSON.stringify({activities: [...actualActivities, buildActivity(program)]}, null, 2))
+  const newActivity = buildActivity(program)
+  fs.writeFile(file, JSON.stringify({activities: [...actualActivities, newActivity]}, null, 2))
 
   console.log("Activity recorded!")
+  console.log(JSON.stringify(newActivity, null, 2))
 })
