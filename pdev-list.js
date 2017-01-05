@@ -2,6 +2,7 @@
 
 const program = require('commander')
 const fs = require('fs')
+const moment = require('moment')
 const config = require('./config.js')
 const threatError = require('./threatError')
 
@@ -35,10 +36,25 @@ const pillarOrderer = (activities) => {
   printer(activities)
 }
 
+const dateOrderer = (activities) => {
+  const activitiesSortedByDate = activities.sort((a, b) => {
+    aDate = moment(a.date, 'DD/MM/YYYY')
+    bDate = moment(b.date, 'DD/MM/YYYY')
+
+    return aDate.diff(bDate, 'days')
+  })
+
+  printer(activities)
+}
+
 const orderByPillar = () => read(config.filePath())(pillarOrderer)
 const orderByCreateDate = () => read(config.filePath())(createDateOrderer)
+const orderByDate = () => read(config.filePath())(dateOrderer)
 
 program
   .option('-p, --pillar', 'print information sorted by pillar', orderByPillar)
+  .option('-d, --date', 'print information sorted by date', orderByDate)
   .option('-a, --all', 'print all information', orderByCreateDate)
   .parse(process.argv)
+
+if (!process.argv[2]) orderByCreateDate()
