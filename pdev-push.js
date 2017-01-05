@@ -2,8 +2,10 @@ const firebase = require("firebase-admin");
 const fs = require('fs');
 
 const firebaseCredentials = require("./firebase-keys.json");
-const data = require("./pdev.json");
-const file = 'pdev.json';
+const config = require('./config.js');
+const threatError = require('./threatError');
+
+const file = config.filePath();
 
 firebase.initializeApp({
   credential: firebase.credential.cert(firebaseCredentials),
@@ -15,7 +17,7 @@ const activitiesRef = database.ref("activities");
 
 const recordToDatabase = (activity) => {
   activitiesRef.push().set(activity).then(() => { 
-    data.activities.length === 0
+    activities.length === 0
       ? firebase.database().goOffline() 
       : recordToDatabase(data.activities.pop()); 
   }); 
@@ -29,5 +31,10 @@ const deleteLocalData = () => {
   });
 };
 
-recordToDatabase(data.activities.pop());
-deleteLocalData();
+fs.readFile(file, (error, actualData) => {
+  if (error) return threatError(error)
+  const activities = JSON.parse(actualData).activities
+  recordToDatabase(activities.pop());
+
+  deleteLocalData();
+});
