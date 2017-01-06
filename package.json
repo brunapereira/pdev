@@ -1,6 +1,6 @@
 {
   "name": "pdev",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Command-line application to track my personal development",
   "main": "pdev.js",
   "scripts": {
