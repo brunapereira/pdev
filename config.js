@@ -1,6 +1,6 @@
 module.exports = {
   filePath: function() {
-    return './pdev.json';
+    return __dirname + '/pdev.json';
   },
 
   initStructure: function() { 
